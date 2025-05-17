@@ -1,0 +1,61 @@
+﻿@model List<Testimonial>
+@{
+    ViewData["Title"] = "Referanslar";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+    int count = 0;
+}
+
+<table class="table table-bordered table-hover">
+
+    <tr>
+        <th>#</th>
+        <th>Ad Soyad</th>
+        <th>Yorum</th>
+        <th>İşlemler</th>
+    </tr>
+
+    @foreach(var item in Model){
+        count++;
+        <tr>
+            <th>@count</th>
+            <th>@item.Name</th>
+            <th>@item.Comment</th>
+            
+            <td>
+                <a onclick="deleteTestimonial(@item.TestimonialId)" class="btn btn-danger"><i class="fa fa-trash"></i> Sil</a>
+                <a href="/Testimonial/UpdateTestimonial" class="btn btn-info"><i class="fa fa-pen"></i> Güncelle</a>
+            </td>
+        </tr>
+    }
+
+
+</table>
+
+<a href="/Testimonial/AddTestimonial" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Yeni Referans Ekle</a>
+
+
+<script>
+       function deleteTestimonial(id){
+
+    Swal.fire({
+    title: "Silmek istediğinize emin misiniz?",
+    text: "Bu işlemi geri alamazsınız!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Evet, Sil!",
+    cancelButtonText: "İptal",
+    background: "#fff8dc",
+    color: "#333"
+    }).then((result) => {
+    if (result.isConfirmed) {
+
+    window.location.href= "/Testimonial/DeleteTestimonial/"+ id;
+
+    }
+    });
+
+
+    }
+</script>

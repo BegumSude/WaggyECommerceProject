@@ -1,0 +1,73 @@
+﻿@model Message  //Message adlı modelden(entity) veri aldık.
+
+<section id="contact" style="background: url('~/waggy-1.0.0/images/background-img.png') no-repeat;">
+    <div class="container ">
+        <div class="row my-5 py-5">
+            <div class="offset-md-3 col-md-6 my-5 ">
+                <h2 class="display-3 fw-normal text-center">
+                    Bizimle <span class="text-primary">İletişime Geçin</span>
+                </h2>
+                <form method="post" asp-action="SendMessage" asp-controller="Default" onsubmit="return validateForm(event)">
+                    <div class="mb-3">
+                        <input type="text" class="form-control form-control-lg" asp-for="Name"
+                               placeholder="Adınız Soyadınız" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="email" class="form-control form-control-lg" asp-for="Email"
+                               placeholder="E-Mail Adresiniz" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control form-control-lg" asp-for="Subject"
+                               placeholder="Mesajın Konusu" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control form-control-lg" asp-for="MessageBody"
+                               placeholder="Mesajınızı Yazın..." required>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-dark btn-lg rounded-1">Gönder</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function validateForm(event) {
+        event.preventDefault(); // Bu yapıyı kullanarak formun hemen gitmesini engelledik.
+
+        const name = document.querySelector('[name="Name"]').value.trim();
+        const email = document.querySelector('[name="Email"]').value.trim();
+        const subject = document.querySelector('[name="Subject"]').value.trim();
+        const message = document.querySelector('[name="MessageBody"]').value.trim();
+
+        if (!name || !email || !subject || !message) {
+            Swal.fire({
+                title: "Hata!",
+                text: "Lütfen tüm alanları eksiksiz doldurun!",
+                icon: "error",
+                confirmButtonText: "Tamam",
+                background: "#fff8dc",
+                color: "#333"
+            });
+            return false;
+        }
+
+        Swal.fire({
+            title: "Tebrikler, Mesajınız başarıyla gönderildi!",
+            text: "Size en yakın zamanda cevap verilecektir!",
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+            background: "#fff8dc",
+            color: "#333"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                event.target.submit(); // Artık formu gerçekten gönderiyoruz
+            }
+        });
+
+        return false; // SweetAlert kapanana kadar beklet
+    }
+</script>
